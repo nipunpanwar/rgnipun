@@ -1,4 +1,4 @@
-name: Azure Login Demo
+name: Azure Login with Service Principal
 
 on:
   push:
@@ -6,20 +6,17 @@ on:
       - main
 
 jobs:
-  login-to-azure:
+  azure-login:
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Login to Azure using service principal
+    - name: Login to Azure
       uses: azure/login@v1
       with:
-        client-id: ${{ secrets.AZURE_CLIENT_ID }}
-        tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-        subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-        client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-    - name: Run Azure CLI command
+    - name: Run az command
       run: az account show
